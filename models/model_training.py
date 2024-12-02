@@ -46,7 +46,13 @@ train_brownspot_fnames = os.listdir(train_brownspot_dir)
 train_sheathblight_fnames = os.listdir(train_sheathblight_dir )
 train_normal_fnames = os.listdir(train_normal_dir)
 
+data_augmentation = tf.keras.Sequential([
+    tf.keras.layers.RandomFlip("horizontal_and_vertical"),
+    tf.keras.layers.RandomRotation(0.2),
+])
+
 model = tf.keras.models.Sequential([
+    data_augmentation,
     tf.keras.Input(shape=(150, 150, 3)),
     tf.keras.layers.Rescaling(1./255),
     tf.keras.layers.Conv2D(16, (3,3), activation='relu'),
